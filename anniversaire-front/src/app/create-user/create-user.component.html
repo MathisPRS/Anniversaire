@@ -17,4 +17,9 @@
   </form>
 </div>
 <div *ngIf="status === 'success'" style="color: green">User created successfully!</div>
-<div *ngIf="status === 'error'" style="color: red">Error creating user. Please try again.</div>
+<div *ngIf="status === 'error' && errors">
+  <ul>
+    <li *ngFor="let error of errors">{{ error }}</li>
+  </ul>
+</div>
+<button routerLink="/login">Go to Login</button>

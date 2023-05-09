@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -15,22 +16,39 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
+    'chrome-extension://eejfoncpjfgmeleakejdcanedmefagga',
     ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'chrome-extension://eejfoncpjfgmeleakejdcanedmefagga'
+    'chrome-extension://eejfoncpjfgmeleakejdcanedmefagga',
     'http://localhost:8000',
     'http://localhost:4200',
 ]
-CSRF_COOKIE_SECURE = False
-CSRF_COOKIE_HTTPONLY = False
-CSRF_COOKIE_SAMESITE = None
-
 CORS_ORIGIN_WHITELIST = [
+    'chrome-extension://eejfoncpjfgmeleakejdcanedmefagga',
     'http://localhost:8000',
     'http://localhost:4200',
 ]
-# Application definition
+
+CORS_ALLOWED_ORIGINS = [
+    'chrome-extension://eejfoncpjfgmeleakejdcanedmefagga',
+    "http://localhost:4200",
+    "http://localhost"
+]
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -54,20 +72,6 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
-
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:4200",
-    "http://localhost"
-]
-
-CORS_ALLOW_METHODS = [
-    "DELETE",
-    "GET",
-    "OPTIONS",
-    "PATCH",
-    "POST",
-    "PUT",
 ]
 
 ROOT_URLCONF = 'anniversaireback.urls'
@@ -142,3 +146,27 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING_PATH = os.path.join(BASE_DIR, 'log')
+if not os.path.exists(LOGGING_PATH):
+    os.makedirs(LOGGING_PATH)
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(LOGGING_PATH, 'debug.log'),
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}

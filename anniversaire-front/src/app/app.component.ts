@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,34 +6,21 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(private router: Router) {}
-  title = 'My App';
+
   ngOnInit() {
-    const authDataString = localStorage.getItem('authData');
-    if (authDataString) {
-      const authData = JSON.parse(authDataString);
-      const { token, expiration } = authData;
-      if (new Date() < new Date(expiration)) {
-        // L'utilisateur est authentifié et la session est valide
-        this.router.navigate(['/home']);
-        this.setSessionTimeout(expiration); // démarre la session timer
-      } else {
-        // La session a expiré
-        localStorage.removeItem('authData');
-        this.router.navigate(['/login']);
-      }
-    } else {
-      // L'utilisateur n'est pas authentifié
+    // Vérifie si le token est présent et valide, si non redirige l'utilisateur vers la page de connexion
+    const token = localStorage.getItem('access_token');
+    if (!token || this.isTokenExpired(token)) {
       this.router.navigate(['/login']);
     }
   }
 
-  private setSessionTimeout(expiration: string) {
-    const expiresInMs = new Date(expiration).getTime() - new Date().getTime();
-    setTimeout(() => {
-      localStorage.removeItem('authData');
-      this.router.navigate(['/login']);
-    }, expiresInMs);
+  private isTokenExpired(token: string): boolean {
+    // Vérifie si le token est expiré en comparant la date d'expiration avec l'heure actuelle
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    const expiration = new Date(decodedToken.exp * 1000);
+    return expiration < new Date();
   }
 }
