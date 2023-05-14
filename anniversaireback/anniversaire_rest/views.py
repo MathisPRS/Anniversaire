@@ -1,15 +1,14 @@
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.contrib.auth import authenticate
-from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken
-
-
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializers import UserSerializer
-from rest_framework.authtoken.models import Token
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import Group, User
+import traceback
+
 import bcrypt
 
 @csrf_exempt
@@ -34,6 +33,7 @@ def login_view(request):
 
     return Response({'access': access_token})
 
+
 @api_view(['POST'])
 def user_create_view(request):
     serializer = UserSerializer(data=request.data)
@@ -48,6 +48,15 @@ def user_create_view(request):
         return Response({'status': 'success'})
     else:
         return Response({'status': 'error', 'errors': serializer.errors})
+    
+@login_required
+def user_profile(request):
+    user = request.user
+    profile = {
+        'username': user.username,
+        'email': user.email,
+    }
+    return JsonResponse(profile)
     
 
 @api_view(['GET'])

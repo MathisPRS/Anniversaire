@@ -17,6 +17,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     'chrome-extension://eejfoncpjfgmeleakejdcanedmefagga',
+    '*',
     ]
 
 CSRF_TRUSTED_ORIGINS = [

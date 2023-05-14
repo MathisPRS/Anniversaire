@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import { MonprofileComponent } from './mon-profile/mon-profile.component';
+import { BirthdayComponent } from './birthday/birthday.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,8 @@ import { CreateUserComponent } from './create-user/create-user.component';
     LoginComponent,
     HomeComponent,
     CreateUserComponent,
+    MonprofileComponent,
+    BirthdayComponent,
   ],
   imports: [
     BrowserModule,

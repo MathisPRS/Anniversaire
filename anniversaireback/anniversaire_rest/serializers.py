@@ -7,12 +7,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         password = validated_data.pop('password')
-        salt = bcrypt.gensalt(rounds=12)
-        hashed_password = bcrypt.hashpw(password.encode(), salt)
-        user = User.objects.create(password=hashed_password.decode(), **validated_data)
+        user = User.objects.create(password, **validated_data)
         return user
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'password']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'password',]
         

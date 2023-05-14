@@ -26,7 +26,14 @@ export class CreateUserComponent {
     if (this.username && this.password && this.email) {
       const salt = bcrypt.genSaltSync(12);
       const hashedPassword = bcrypt.hashSync(this.password, salt);
-      const data = { username: this.username, password: hashedPassword, email: this.email, group: 'default', salt: salt };
+      const data = { 
+        username: this.username, 
+        password: hashedPassword, 
+        email: this.email, 
+        group: 'default', 
+        salt: salt 
+      };
+
       this.http.post<CreateUserResponse>('http://localhost:8000/api/users/create', data).subscribe(
         (response: CreateUserResponse) => {
           this.status = response.status;

@@ -14,4 +14,12 @@ export class HomeComponent {
     localStorage.removeItem('access_token');
     this.router.navigate(['/login']);
   }
+  checkprofile() {
+    this.router.navigate(['/monprofile']);
+  }
+  addbirthday() {
+    this.router.navigate(['/birthday']);
+
+  }
+  
 }
