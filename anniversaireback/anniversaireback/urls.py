@@ -9,5 +9,6 @@ urlpatterns = [
     path('api/users/create', views.user_create_view),
     path('api/users/list', views.get_all_users, name='get_all_users'),
     path('api/users/profile/', views.user_profile, name='user_profile'),
+    path('api/users/update/', views.update_user_view, name='update_user_view'),
 ]
 

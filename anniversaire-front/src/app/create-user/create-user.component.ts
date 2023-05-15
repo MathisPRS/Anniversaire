@@ -21,6 +21,7 @@ export class CreateUserComponent {
   password2: string | null = null;
   password: string | null = null;
   email: string | null = null;
+  
   status: string | null = null;
   errors: any | null = null;
   constructor(private http: HttpClient, private router: Router) {}

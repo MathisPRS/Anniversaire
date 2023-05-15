@@ -42,7 +42,18 @@ def user_create_view(request):
         return Response({'status': 'success'})
     else:
         return Response({'status': 'error', 'errors': serializer.errors})
-    
+
+
+@api_view(['POST'])
+def update_user_view(request):
+    user = request.user
+    serializer = UserSerializer(user, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({'status': 'success'})
+    else:
+        return Response({'status': 'error', 'errors': serializer.errors})
+
 @login_required
 def user_profile(request):
     user = request.user
@@ -52,7 +63,6 @@ def user_profile(request):
     }
     return JsonResponse(profile)
     
-
 @api_view(['GET'])
 def get_all_users(request):
     users = User.objects.all().values()

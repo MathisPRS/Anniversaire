@@ -1,22 +1,73 @@
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+
+interface ProfileResponse {
+  status: string;
+  errors?: any;
+}
 
 @Component({
   selector: 'app-monprofile',
   templateUrl: './mon-profile.component.html',
   styleUrls: ['./mon-profile.component.css']
 })
-export class MonprofileComponent implements OnInit {
-  profile: any;
 
-  constructor(private http: HttpClient) { }
+export class MonprofileComponent{
+
+  last_name: string | null = null;
+  first_name: string | null = null;
+  username: string | null = null;
+  email: string | null = null;
+
+  isEditMode: boolean = false;
+  status: string | null = null;
+  loginInfo: string | null = null;
+  errors: any | null = null;
+
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
-    this.http.get('/api/user_profile/').subscribe(
-      data => {
-        this.profile = data;
-      },
-      error => console.log(error)
-    );
+    this.initializeVariables();
+  }
+
+  initializeVariables(): void {
+    this.last_name = localStorage.getItem('last_name');
+    this.first_name = localStorage.getItem('first_name');
+    this.username = localStorage.getItem('username');
+    this.email = localStorage.getItem('email');
+  }
+  
+  onEditClick(): void {
+        this.isEditMode = true;
+  }
+  onCancelClick(): void {
+    this.isEditMode = false;
+    this.initializeVariables();
+  }
+  onSaveClick(): void {
+    localStorage.setItem('last_name', this.last_name ?? '');
+    localStorage.setItem('first_name', this.first_name ?? '');
+    localStorage.setItem('username', this.username ?? '');
+    localStorage.setItem('email', this.email ?? '');
+    const data = { 
+      username: this.username,
+      first_name : this.first_name,
+      last_name : this.last_name,
+      email: this.email, 
+    };
+    this.http.post<ProfileResponse>('http://localhost:8000/api/users/update/', data).subscribe(
+      (response: ProfileResponse) => {
+        if (response.status ='success') {
+          this.isEditMode = false;
+          this.errors = Object.values(response.errors);
+          }
+          console.log(response);
+        },
+        (error: any) => console.log(error)
+      );
+  }
+  GoHome() {
+    this.router.navigate(['/home']);
   }
 }
