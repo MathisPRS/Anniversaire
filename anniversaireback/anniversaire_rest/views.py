@@ -9,7 +9,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import Group, User
 import traceback
 
-import bcrypt
 
 @csrf_exempt
 @api_view(['POST'])
@@ -38,13 +37,7 @@ def login_view(request):
 def user_create_view(request):
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
-        password = serializer.validated_data.pop('password')
-        user = User.objects.create(**serializer.validated_data)
-        user.set_password(password)
-        group_name = request.data.get('group', 'default')
-        group, _ = Group.objects.get_or_create(name=group_name)
-        group.user_set.add(user)
-        user.save()
+        serializer.save()
         return Response({'status': 'success'})
     else:
         return Response({'status': 'error', 'errors': serializer.errors})

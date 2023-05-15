@@ -16,6 +16,9 @@ interface CreateUserResponse {
 })
 export class CreateUserComponent {
   username: string | null = null;
+  first_name: string | null = null;
+  last_name: string | null = null;
+  password2: string | null = null;
   password: string | null = null;
   email: string | null = null;
   status: string | null = null;
@@ -23,12 +26,15 @@ export class CreateUserComponent {
   constructor(private http: HttpClient, private router: Router) {}
 
   onSubmit() {
-    if (this.username && this.password && this.email) {
+    if (this.username && this.password && this.email && this.password2) {
       const salt = bcrypt.genSaltSync(12);
       const hashedPassword = bcrypt.hashSync(this.password, salt);
       const data = { 
-        username: this.username, 
-        password: hashedPassword, 
+        username: this.username,
+        first_name : this.first_name,
+        last_name : this.last_name,
+        password: this.password,
+        password2 : this.password2,
         email: this.email, 
         group: 'default', 
         salt: salt 

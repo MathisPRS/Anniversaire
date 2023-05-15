@@ -15,6 +15,11 @@ export class AppComponent implements OnInit {
     if (!token || this.isTokenExpired(token)) {
       this.router.navigate(['/login']);
     }
+
+    const CurrentUser_username = localStorage.getItem('CurrentUser_username')
+    const CurrentUser_mail = localStorage.getItem('CurrentUser_mail')
+    const CurrentUser_firstname = localStorage.getItem('CurrentUser_firstname')
+    const CurrentUser_lastname = localStorage.getItem('CurrentUser_lastname')
   }
 
   private isTokenExpired(token: string): boolean {
