@@ -9,7 +9,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import Group, User
 import traceback
 
-
 @csrf_exempt
 @api_view(['POST'])
 def login_view(request):
@@ -30,7 +29,9 @@ def login_view(request):
     except Exception as e:
         return Response({'error': str(e)}, status=500)
 
-    return Response({'access': access_token})
+    #user = User.objects.filter(email="mrecluss@akema.fr")[0]
+    data_user = UserSerializer(user).data
+    return Response({'access': access_token, 'data_user': data_user})
 
 
 @api_view(['POST'])
