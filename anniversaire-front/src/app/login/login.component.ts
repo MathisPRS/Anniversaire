@@ -9,6 +9,7 @@ interface LoginResponse {
     email: string;
     first_name: string;
     last_name: string;
+    id: string;
   };
 }
 
@@ -36,6 +37,7 @@ export class LoginComponent {
             localStorage.setItem('email', response.data_user.email);
             localStorage.setItem('first_name', response.data_user.first_name);
             localStorage.setItem('last_name', response.data_user.last_name);
+            localStorage.setItem('user_id', response.data_user.id);
             this.router.navigate(['/home']);
           } else {
             this.loginError = "Identifiants invalides";

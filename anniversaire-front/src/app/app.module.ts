@@ -23,7 +23,7 @@ import { BirthdayComponent } from './birthday/birthday.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule, // Add this line
+    FormsModule,
     HttpClientModule
   ],
   providers: [],

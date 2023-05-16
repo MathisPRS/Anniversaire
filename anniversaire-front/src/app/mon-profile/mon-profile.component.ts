@@ -19,6 +19,7 @@ export class MonprofileComponent{
   first_name: string | null = null;
   username: string | null = null;
   email: string | null = null;
+  user_id = localStorage.getItem('user_id')
 
   isEditMode: boolean = false;
   status: string | null = null;
@@ -56,16 +57,17 @@ export class MonprofileComponent{
       last_name : this.last_name,
       email: this.email, 
     };
-    this.http.post<ProfileResponse>('http://localhost:8000/api/users/update/', data).subscribe(
+    this.http.put<ProfileResponse>(`http://localhost:8000/api/users/update/${this.user_id}/`, data).subscribe(
       (response: ProfileResponse) => {
-        if (response.status ='success') {
+        if (response.status === 'success') {
           this.isEditMode = false;
-          this.errors = Object.values(response.errors);
-          }
-          console.log(response);
-        },
-        (error: any) => console.log(error)
-      );
+        } else {
+          this.errors = response.errors;
+        }
+        console.log(response);
+      },
+      (error: any) => console.log(error)
+    );
   }
   GoHome() {
     this.router.navigate(['/home']);

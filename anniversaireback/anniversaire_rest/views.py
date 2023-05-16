@@ -4,10 +4,9 @@ from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UpdateUserSerializer
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.models import Group, User
-import traceback
+from django.contrib.auth.models import User
 
 @csrf_exempt
 @api_view(['POST'])
@@ -29,7 +28,6 @@ def login_view(request):
     except Exception as e:
         return Response({'error': str(e)}, status=500)
 
-    #user = User.objects.filter(email="mrecluss@akema.fr")[0]
     data_user = UserSerializer(user).data
     return Response({'access': access_token, 'data_user': data_user})
 
@@ -44,26 +42,17 @@ def user_create_view(request):
         return Response({'status': 'error', 'errors': serializer.errors})
 
 
-@api_view(['POST'])
-def update_user_view(request):
-    user = request.user
-    serializer = UserSerializer(user, data=request.data)
+@api_view(['PUT'])
+def update_user_view(request, pk):
+    try:
+        user = User.objects.get(pk=pk)
+    except User.DoesNotExist:
+        return Response({'status': 'error', 'message': 'User does not exist.'}, status=404)
+       
+    serializer = UpdateUserSerializer(user, data=request.data, context={'request': request})
+    
     if serializer.is_valid():
         serializer.save()
         return Response({'status': 'success'})
     else:
         return Response({'status': 'error', 'errors': serializer.errors})
-
-@login_required
-def user_profile(request):
-    user = request.user
-    profile = {
-        'username': user.username,
-        'email': user.email,
-    }
-    return JsonResponse(profile)
-    
-@api_view(['GET'])
-def get_all_users(request):
-    users = User.objects.all().values()
-    return JsonResponse({'users': list(users)})
