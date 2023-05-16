@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
+from .models import FriendBirthday
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -38,7 +39,6 @@ class UpdateUserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
     username = serializers.CharField(required=False)
 
-
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email')
@@ -69,3 +69,19 @@ class UpdateUserSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+    
+class BirthdaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FriendBirthday
+        fields = '__all__'
+    
+    def validate(self, attrs):
+        user = self.instance
+        user_id = user.pk
+        last_name = attrs.get('last_name')
+        first_name = attrs.get('first_name')
+
+        if FriendBirthday.objects.filter(user_id=user_id, last_name=last_name, first_name=first_name).exists():
+            raise serializers.ValidationError("Ce nom d'ami existe déjà pour cet utilisateur.")
+
+        return attrs
