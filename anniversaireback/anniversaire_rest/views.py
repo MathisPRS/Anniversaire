@@ -69,7 +69,9 @@ class BirthdayView():
         except User.DoesNotExist:
             return Response({'status': 'error', 'message': 'User does not exist.'}, status=404)
         
-        serializer = BirthdaySerializer(user, data=request.data)
+        data = request.data.copy()
+        data['user_id'] = pk
+        serializer = BirthdaySerializer(data=data)
 
         if serializer.is_valid():
             serializer.save()

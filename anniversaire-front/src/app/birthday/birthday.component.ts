@@ -28,12 +28,13 @@ export class BirthdayComponent {
   constructor(private http: HttpClient, private router: Router) {}
 
   ajouterAnniversaire(): void {
-    
     const formData = new FormData();
     formData.append('last_name', this.last_name);
     formData.append('first_name', this.first_name);
-    formData.append('birthday_date', this.birthdayDate.toISOString());
     
+    const formattedDate = new Date(this.birthdayDate).toISOString().split('T')[0];
+    formData.append('birthday_date', formattedDate);
+      
     this.http.post<AddFriendResponse>(`http://localhost:8000/api/anniversaire/${this.user_id}/`, formData)
     .subscribe((response: AddFriendResponse) => {
       if (response.status === 'success') {
