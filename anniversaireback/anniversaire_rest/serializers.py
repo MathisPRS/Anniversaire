@@ -82,7 +82,7 @@ class BirthdaySerializer(serializers.ModelSerializer):
         user_id = attrs.get('user_id')
         last_name = attrs.get('last_name')
         first_name = attrs.get('first_name')
-
+        
         if FriendBirthday.objects.filter(user_id=user_id, last_name=last_name, first_name=first_name).exists():
             raise serializers.ValidationError("Ce nom d'ami existe déjà pour cet utilisateur.")
 
@@ -97,13 +97,15 @@ class BirthdaySerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
-        user_id = validated_data.get('user_id')
+        user_id = validated_data.get('user_id').pk
         user = User.objects.get(pk=user_id)
+
         friend = FriendBirthday(
-            user_id=user_id,
+            user_id=user,
             last_name=validated_data['last_name'],
             first_name=validated_data['first_name'],
             birthday_date=validated_data['birthday_date']
         )
+
         friend.save()
         return friend
