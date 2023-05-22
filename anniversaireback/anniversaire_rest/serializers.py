@@ -1,7 +1,9 @@
 from rest_framework import serializers
+from datetime import datetime
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
+from .models import FriendBirthday
 
 class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
@@ -38,7 +40,6 @@ class UpdateUserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
     username = serializers.CharField(required=False)
 
-
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email')
@@ -65,7 +66,46 @@ class UpdateUserSerializer(serializers.ModelSerializer):
         instance.last_name = validated_data['last_name']
         instance.email = validated_data['email']
         instance.username = validated_data['username']
-
         instance.save()
 
         return instance
+    
+class BirthdaySerializer(serializers.ModelSerializer):
+    birthday_date = serializers.DateField()
+
+    class Meta:
+        model = FriendBirthday
+        fields = '__all__'
+
+    def validate(self, attrs):
+        attrs = super().validate(attrs)
+        user_id = attrs.get('user_id')
+        last_name = attrs.get('last_name')
+        first_name = attrs.get('first_name')
+        
+        if FriendBirthday.objects.filter(user_id=user_id, last_name=last_name, first_name=first_name).exists():
+            raise serializers.ValidationError("Ce nom d'ami existe déjà pour cet utilisateur.")
+
+        # Vérifier le format de la date
+        birthday_date = attrs.get('birthday_date')
+        try:
+            birthday_date_str = birthday_date.strftime('%Y-%m-%d')
+        except AttributeError:
+            raise serializers.ValidationError("Le format de la date d'anniversaire est incorrect.")
+        attrs['birthday_date'] = birthday_date_str
+
+        return attrs
+
+    def create(self, validated_data):
+        user_id = validated_data.get('user_id').pk
+        user = User.objects.get(pk=user_id)
+
+        friend = FriendBirthday(
+            user_id=user,
+            last_name=validated_data['last_name'],
+            first_name=validated_data['first_name'],
+            birthday_date=validated_data['birthday_date']
+        )
+
+        friend.save()
+        return friend

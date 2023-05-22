@@ -57,8 +57,8 @@ export class MonprofileComponent{
       last_name : this.last_name,
       email: this.email, 
     };
-    this.http.put<ProfileResponse>(`http://localhost:8000/api/users/update/${this.user_id}/`, data).subscribe(
-      (response: ProfileResponse) => {
+    this.http.put<ProfileResponse>(`http://localhost:8000/api/users/update/${this.user_id}/`, data)
+    .subscribe((response: ProfileResponse) => {
         if (response.status === 'success') {
           this.isEditMode = false;
         } else {
