@@ -1,0 +1,35 @@
+.sidebar {
+    position: absolute;
+    top: 89px; /* Ajustez la hauteur de la navbar */
+    left: 0;
+    width: 60px; /* Ajustez la largeur de la sidebar selon vos besoins */
+    height: calc(100% - 50px); /* Soustrayez la hauteur de la navbar */
+    background-color: #f8f9fa; /* Couleur de fond de la sidebar */
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.25); 
+    z-index: 998; /* Assurez-vous que la sidebar s'affiche au-dessus du contenu de la page */
+  }
+  
+  .sidebar-menu {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar-item {
+    margin-bottom: 10px; /* Ajustez l'espacement entre les éléments de la sidebar selon vos besoins */
+  }
+  
+  .sidebar-link {
+    display: block;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .sidebar-logo {
+    max-width: 30px; /* Ajustez la taille maximale des logos selon vos besoins */
+    width: 100%;
+    height: auto;
+  }
+  .sidebar-item:hover {
+    background-color: gray;
+  }

@@ -10,6 +10,8 @@ import { HomeComponent } from './home/home.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import { MonprofileComponent } from './mon-profile/mon-profile.component';
 import { BirthdayComponent } from './birthday/birthday.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { BirthdayComponent } from './birthday/birthday.component';
     CreateUserComponent,
     MonprofileComponent,
     BirthdayComponent,
+    NavbarComponent,
+    SidebarComponent,
   ],
   imports: [
     BrowserModule,

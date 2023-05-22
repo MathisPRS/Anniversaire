@@ -1,0 +1,28 @@
+  
+  .navbar {
+    position: sticky;
+    background-color: white; 
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2); 
+    z-index: 999;
+  }
+  .profile-logo {
+    max-width: 40px; /* Ajustez la taille maximale de l'icône de profil selon vos besoins */
+
+    width: 40px; /* Ajustez la taille de l'icône de profil selon vos besoins */
+    height: 40px; /* Ajustez la taille de l'icône de profil selon vos besoins */
+  }  
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+  }
+  
+  .logo {
+    max-width: 60px; /* Ajustez la taille maximale du logo selon vos besoins */
+  }
+  
+  .profile-icon:hover {
+
+    filter: brightness(1.2);
+    cursor: pointer;
+  }
