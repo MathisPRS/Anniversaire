@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SidebarService } from '../services/sidebar.service';
 
 @Component({
   selector: 'app-home',
@@ -7,8 +8,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css']
 })
 
-export class HomeComponent {
-  constructor(private router: Router) {}
+export class HomeComponent implements OnInit{
+  constructor(private router: Router, private sidebarService: SidebarService) {}
+  showSidebar = false;
 
   onLogout() {
     localStorage.removeItem('access_token');
@@ -17,9 +19,11 @@ export class HomeComponent {
   checkprofile() {
     this.router.navigate(['/monprofile']);
   }
-  addbirthday() {
-    this.router.navigate(['/birthday']);
-
+  
+  ngOnInit() {
+    this.sidebarService.showSidebar$.subscribe(show => {
+      this.showSidebar = show;
+    });
   }
   
 }

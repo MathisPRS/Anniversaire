@@ -1,32 +1,38 @@
-<app-navbar></app-navbar>
-<div *ngIf="!isEditMode">
-    <h1>Mon profil</h1>
-    <p><strong>Nom d'utilisateur:</strong> {{ username }}</p>
-    <p><strong>Email:</strong> {{ email }}</p>
-    <p><strong>Prénom:</strong> {{ first_name }}</p>
-    <p><strong>Nom de famille:</strong> {{ last_name }}</p>
-    <p><strong>ID du compte:</strong> {{ user_id }}</p>
-    <button (click)="onEditClick()">Modifier</button>
-    <button (click)="GoHome()">Accueil</button>
+<app-navbar></app-navbar> <!-- Importez votre composant de navbar ici -->
+<div class="container-fluid">
+  <div class="content" [class.show-sidebar]="showSidebar">
+    <app-sidebar></app-sidebar>
+    <div *ngIf="!isEditMode">
+        <h1>Mon profil</h1>
+        <p><strong>Nom d'utilisateur:</strong> {{ username }}</p>
+        <p><strong>Email:</strong> {{ email }}</p>
+        <p><strong>Prénom:</strong> {{ first_name }}</p>
+        <p><strong>Nom de famille:</strong> {{ last_name }}</p>
+        <p><strong>ID du compte:</strong> {{ user_id }}</p>
+        <button (click)="onEditClick()">Modifier</button>
+        <button (click)="GoHome()">Accueil</button>
+      </div>
+      
+      <div *ngIf="isEditMode">
+        <h1>Modifier mon profil</h1>
+        <label>Nom d'utilisateur:</label>
+        <input [(ngModel)]="username"><br>
+        <label>Email:</label>
+        <input [(ngModel)]="email"><br>
+        <label>Prénom:</label>
+        <input [(ngModel)]="first_name"><br>
+        <label>Nom de famille:</label>
+        <input [(ngModel)]="last_name"><br>
+        <div *ngIf="status === 'success'" style="color: green">Modifications faites avec succes!</div>
+        <div *ngIf="status === 'error' && errors">
+          <ul>
+            <li *ngFor="let error of errors">{{ error }}</li>
+          </ul>
+        </div>
+        <button (click)="onSaveClick()">Appliquer les modifications</button>
+        <button (click)="onCancelClick()">Annuler</button>
+        
+      </div>
   </div>
+</div>
   
-  <div *ngIf="isEditMode">
-    <h1>Modifier mon profil</h1>
-    <label>Nom d'utilisateur:</label>
-    <input [(ngModel)]="username"><br>
-    <label>Email:</label>
-    <input [(ngModel)]="email"><br>
-    <label>Prénom:</label>
-    <input [(ngModel)]="first_name"><br>
-    <label>Nom de famille:</label>
-    <input [(ngModel)]="last_name"><br>
-    <div *ngIf="status === 'success'" style="color: green">Modifications faites avec succes!</div>
-    <div *ngIf="status === 'error' && errors">
-      <ul>
-        <li *ngFor="let error of errors">{{ error }}</li>
-      </ul>
-    </div>
-    <button (click)="onSaveClick()">Appliquer les modifications</button>
-    <button (click)="onCancelClick()">Annuler</button>
-    
-  </div>

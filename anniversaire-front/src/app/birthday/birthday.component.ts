@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { SidebarService } from '../services/sidebar.service';
 
 
 interface AddFriendResponse {
@@ -14,8 +15,8 @@ interface AddFriendResponse {
   styleUrls: ['./birthday.component.css']
 })
 
-export class BirthdayComponent {
-
+export class BirthdayComponent implements OnInit {
+  showSidebar = false;
   first_name: string = '';
   last_name: string = ''
   birthdayDate!: Date;
@@ -25,7 +26,7 @@ export class BirthdayComponent {
   loginInfo: string | null = null;
   errors: any | null = null;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private sidebarService: SidebarService) {}
 
   ajouterAnniversaire(): void {
     const formData = new FormData();
@@ -49,5 +50,10 @@ export class BirthdayComponent {
 }
 GoHome() {
   this.router.navigate(['/home']);
+}
+ngOnInit() {
+  this.sidebarService.showSidebar$.subscribe(show => {
+    this.showSidebar = show;
+  });
 }
 }

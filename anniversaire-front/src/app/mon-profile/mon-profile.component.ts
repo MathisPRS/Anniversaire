@@ -1,6 +1,8 @@
 import { Component} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { SidebarService } from '../services/sidebar.service';
+
 
 interface ProfileResponse {
   status: string;
@@ -26,10 +28,14 @@ export class MonprofileComponent{
   loginInfo: string | null = null;
   errors: any | null = null;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private sidebarService: SidebarService) {}
+  showSidebar = false;
 
   ngOnInit(): void {
     this.initializeVariables();
+    this.sidebarService.showSidebar$.subscribe(show => {
+      this.showSidebar = show;
+    });
   }
 
   initializeVariables(): void {
