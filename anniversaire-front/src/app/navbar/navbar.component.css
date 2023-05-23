@@ -10,7 +10,13 @@
 
     width: 40px; /* Ajustez la taille de l'icône de profil selon vos besoins */
     height: 40px; /* Ajustez la taille de l'icône de profil selon vos besoins */
-  }  
+  } 
+  .menu-logo {
+    max-width: 25px; /* Ajustez la taille maximale de l'icône de profil selon vos besoins */
+
+    width: 25px; /* Ajustez la taille de l'icône de profil selon vos besoins */
+    height: 25px;
+  }
   .navbar-brand {
     display: flex;
     align-items: center;
@@ -25,4 +31,25 @@
 
     filter: brightness(1.2);
     cursor: pointer;
+  }
+  .navbar-toggler:hover {
+    background-color: rgb(68, 209, 202);
+  }
+  .profile-icon:hover  {
+    background-color: rgb(68, 209, 202);
+
+  }
+  .dropdown-item:hover {
+    background-color: rgb(68, 209, 202);
+
+  }
+  .dropdown-menu-right.show {
+    left: auto;
+    right: 0;
+    transform: translateX(0);
+  }
+  
+  .dropdown-menu.show {
+    display: block;
+    margin-top: 0;
   }

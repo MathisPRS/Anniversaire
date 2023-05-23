@@ -1,0 +1,13 @@
+.content {
+    margin-top: 10px;
+    margin-left: 80px; /* Ajustez la largeur de la sidebar ici */
+    padding: 20px; /* Ajustez l'espacement intérieur du contenu selon vos besoins */
+    transition: margin 0.3s ease-in-out;
+    z-index: 900;
+
+  }
+  .content.show-sidebar {
+    margin-left: 220px;
+    transition: margin 0.3s ease-in-out;
+
+  }

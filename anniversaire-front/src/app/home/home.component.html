@@ -1,13 +1,12 @@
 <app-navbar></app-navbar> <!-- Importez votre composant de navbar ici -->
-
 <div class="container-fluid">
-  <div class="content">
-    <app-sidebar></app-sidebar> <!-- Importez votre composant de sidebar ici -->
+  <div class="content" [class.show-sidebar]="showSidebar">
+    <app-sidebar></app-sidebar> 
+    <!-- CONTENU -->
         <h1>Welcome to the Home Page</h1>
         <button (click)="onLogout()">Logout</button>
         <button (click)="checkprofile()">Mon profile</button>
-        <button (click)="addbirthday()">Mes anniversaires</button>
-  
+       
   </div>
 </div>
 

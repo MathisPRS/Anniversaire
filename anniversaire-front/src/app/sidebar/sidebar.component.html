@@ -1,13 +1,15 @@
-<div class="sidebar">
+<div class="sidebar" [class.show-sidebar]="showSidebar">
     <ul class="sidebar-menu">
       <li class="sidebar-item">
-        <a href="#" class="sidebar-link">
-          <img src="..\..\assets\images\ballon.png" alt="Logo 1" class="sidebar-logo">
+        <a class="sidebar-link" (click)="addbirthday()">
+          <img src="..\..\assets\images\ballon.png" alt="Logo 1" class="sidebar-logo" >
+          <span class="sidebar-label collapsed ">Anniversaire</span>
         </a>
       </li>
       <li class="sidebar-item">
         <a href="#" class="sidebar-link">
-          <img src="..\..\assets\images\ballon.png" alt="Logo 2" class="sidebar-logo">
+          <img src="..\..\assets\images\calendrier.png" alt="Logo 2" class="sidebar-logo">
+          <span class="sidebar-label collapsed ">Calendrier</span>
         </a>
       </li>
       <!-- Ajoutez d'autres éléments de la sidebar ici -->
